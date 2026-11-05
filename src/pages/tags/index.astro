@@ -1,0 +1,57 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumb from '@/components/Breadcrumb.astro';
+import TagCard from '@/components/TagCard.astro'; 
+
+const allPosts = Object.values(import.meta.glob('../posts/**/*.md', { eager: true }));     
+const tags = [...new Set(allPosts.map((post) => post.frontmatter.tags).flat())];
+---
+
+<BaseLayout pageTitle="标签">
+<div class="page-wrap">
+    <div class="header">
+        <Breadcrumb 
+            breadcrumbs={[
+                { to: '/', label: '首页' },
+                { to: '/tags', label: '标签' }
+            ]}
+        />
+    </div>
+    <div class="main">
+        <div class="tag-list">
+            { tags.map((tag) => <TagCard tag={tag} />) }
+        </div>
+    </div>
+</div>
+    <div class="tags">
+        
+  </div>
+</BaseLayout>
+
+<style>
+.page-wrap {
+    padding: 32px 16px;
+}
+
+.header {
+    padding-bottom: 15px;
+    border-bottom: 1px dotted #ece9e9;
+}
+
+.main {
+    margin: 20px 0;
+}
+
+.footer {
+    border-top: 1px dotted #ece9e9;
+    padding-top: 15px;
+}
+
+.tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 24px 0;
+    border-top: 1px dotted #ece9e9;
+    border-bottom: 1px dotted #ece9e9;
+}
+</style>

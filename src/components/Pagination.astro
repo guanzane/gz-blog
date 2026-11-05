@@ -1,0 +1,64 @@
+---
+// 分页组件、
+// 接收 Astro paginate() 注入的 page 对象：
+//   page.currentPage - 当前页码
+//   page.lastPage    - 总页数
+//   page.url.prev    - 上一页链接（第 1 页时为 undefined）
+//   page.url.next    - 下一页链接（最后一页时为 undefined）
+const { page } = Astro.props;
+
+const hasPrev = !!page.url.prev;
+const hasNext = !!page.url.next;
+---
+
+{
+    page.lastPage > 1 && (
+        <nav class="pagination-wrap" role="navigation" aria-label="分页导航">
+            {hasPrev ? (
+                <a href={page.url.prev} class="page-opt">上一页</a>
+            ) : (
+                <span class="page-opt disabled">上一页</span>
+            )}
+            <p class="page-num">{page.currentPage} / {page.lastPage}</p>
+            {hasNext ? (
+                <a href={page.url.next} class="page-opt">下一页</a>
+            ) : (
+                <span class="page-opt disabled">下一页</span>
+            )}
+        </nav>
+    )
+}
+
+<style>
+.pagination-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.page-num {
+    margin: 0 20px;
+}
+
+.page-opt {
+    display: inline-block;
+    padding: 5px 10px;
+    transition: all .2s;
+    color: #333;
+}
+
+.page-opt:hover {
+    color: #fff;
+    background-color: #006cac;
+}
+
+.page-opt.disabled {
+    color: #bbb;
+    cursor: not-allowed;
+}
+
+.page-opt.disabled:hover {
+    color: #bbb;
+    background-color: transparent;
+}
+</style>

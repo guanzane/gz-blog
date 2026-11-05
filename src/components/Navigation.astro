@@ -1,0 +1,32 @@
+---
+const navs = [
+    { name: "首页", url: "/" },
+    { name: "文章", url: "/posts" },
+    { name: "标签", url: "/tags" },
+    { name: "关于", url: "/about" },
+]
+---
+
+<ul id="menu-items">
+    { navs.map((nav) => 
+        <li><a href={nav.url}>{ nav.name }</a></li>) }
+</ul>
+
+<style>
+#menu-items {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 1fr;
+    grid-column-gap: 20px;
+    grid-row-gap: 0px;
+
+    li>a {
+        font-size: 18px;
+        padding: 4px 8px;
+
+        &:hover {
+            color: #006cac;
+        }
+    }
+}
+</style>

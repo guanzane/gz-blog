@@ -1,0 +1,72 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PostCard from '@/components/PostCard.astro';
+
+const allPosts = Object.values(import.meta.glob('./posts/**/*.md', { eager: true }));
+
+// 按发布日期降序排序，取最新 10 篇
+const latestPosts = allPosts
+    .sort((a: any, b: any) => new Date(b.frontmatter.pubDate).getTime() - new Date(a.frontmatter.pubDate).getTime())
+    .slice(0, 10);
+---
+
+<BaseLayout pageTitle="首页">
+<div class="page-wrap">
+    <div class="header">
+        <div id="page-title">最新文章</div>
+    </div>
+    <div class="main">
+        { latestPosts.map((post) => 
+			<PostCard post={post} />
+		) }
+    </div>
+    <div class="footer">
+        <div id="more-wrap">
+            <a href="/posts">
+                更多
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block rtl:rotate-180">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M5 12l14 0"></path><path d="M13 18l6 -6"></path>
+                    <path d="M13 6l6 6"></path>
+                </svg>
+            </a>
+        </div>
+    </div>
+</div>
+</BaseLayout>
+
+<style>
+.page-wrap {
+    padding: 32px 16px;
+}
+
+.header {
+    padding-bottom: 15px;
+    border-bottom: 1px dotted #ece9e9;
+}
+
+.main {
+    margin: 20px 0;
+}
+
+.footer {
+    border-top: 1px dotted #ece9e9;
+    padding-top: 15px;
+}
+
+#page-title {
+    font-size: 20px;
+    padding: 2px 0;
+}
+
+#more-wrap {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    >a {
+        display: flex;
+        align-items: center;
+    }
+}
+</style>

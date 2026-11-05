@@ -1,0 +1,57 @@
+---
+// 面包屑组件
+// Props: breadcrumbs - Array<{ to, label, dynamic? }>
+//   to      - 链接地址（最后一项为 '#' 或省略时渲染为纯文本）
+//   label   - 显示文本
+//   dynamic - 可选。设为 true 时，该项作为「动态槽位」：
+//             渲染一个占位 <a data-breadcrumb-dynamic>，由全局脚本
+//             根据 document.referrer 动态填充文字与链接。
+//             适用于「上一级」需要感知用户来源（从标签进/从文章列表进）的场景。
+const { breadcrumbs = [] } = Astro.props;
+---
+
+<nav class="breadcrumb-wrap" aria-label="面包屑导航">
+    <ul>
+        {breadcrumbs.map((crumb, index) => {
+            const isLast = index === breadcrumbs.length - 1;
+            const isCurrent = isLast && (!crumb.to || crumb.to === '#');
+            return (
+                <li>
+                    {isCurrent ? (
+                        <span class="current">{crumb.label}</span>
+                    ) : crumb.dynamic ? (
+                        <a href={crumb.to} data-breadcrumb-dynamic data-fallback-href={crumb.to} data-fallback-label={crumb.label}>{crumb.label}</a>
+                    ) : (
+                        <a href={crumb.to}>{crumb.label}</a>
+                    )}
+                    {!isLast && <span class="sep" aria-hidden="true">»</span>}
+                </li>
+            );
+        })}
+    </ul>
+</nav>
+
+<style>
+.breadcrumb-wrap {
+    width: 100%;
+}
+
+.breadcrumb-wrap ul {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.breadcrumb-wrap li {
+    display: flex;
+    align-items: center;
+}
+
+.breadcrumb-wrap li .sep {
+    margin: 0 10px;
+}
+
+.breadcrumb-wrap li .current {
+    color: #999;
+}
+</style>

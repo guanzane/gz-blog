@@ -1,0 +1,122 @@
+/* ============================================================
+   响应式适配（移动端 / 窄屏）
+   说明：
+   - 所有规则都包裹在 @media (max-width: ...) 内，
+     只在窄屏下生效，绝不改动 PC 端（≥768px）的布局。
+   - 采用「移动优先 + 桌面断点」思路，逐步适配不同屏宽。
+   ============================================================ */
+
+/* ---------- 全局基础 ---------- */
+/* body 在 PC 端由 global.css 限制为 max-width:768px 居中。
+   窄屏下需要确保占满并留出边距，避免内容顶边/溢出。 */
+@media (max-width: 768px) {
+  body {
+    width: 100%;
+    padding-left: 12px;
+    padding-right: 12px;
+    overflow-x: hidden;
+  }
+}
+
+/* ---------- 顶栏 Header ---------- */
+/* 窄屏下 logo 与导航放不下时改为纵向堆叠，避免溢出 */
+@media (max-width: 640px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px 12px;
+  }
+
+  .top-nav-logo {
+    font-size: 20px;
+  }
+
+  /* 导航项占满宽度，均匀分布 */
+  #menu-items {
+    width: 100%;
+    grid-column-gap: 8px;
+  }
+
+  #menu-items li > a {
+    font-size: 15px;
+    padding: 4px 6px;
+  }
+}
+
+/* ---------- 文章卡片 PostCard ---------- */
+/* PC 端：标题 max-width:calc(100% - 155px)，日期固定 155px。
+   窄屏下日期太占空间，改为上下堆叠、日期缩小并去掉左内边距 */
+@media (max-width: 520px) {
+  .card-wrap > a {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .title {
+    max-width: 100%;
+    font-size: 16px;
+  }
+
+  .time {
+    width: auto;
+    padding-left: 0;
+    font-size: 13px;
+    color: #8590a6;
+  }
+}
+
+/* ---------- 首页「更多」按钮 ---------- */
+/* index.astro 的 #more-wrap 硬编码 width:768px，窄屏会溢出 */
+@media (max-width: 768px) {
+  #more-wrap {
+    width: 100%;
+  }
+}
+
+/* ---------- 关于页 ---------- */
+/* about.astro 没有 .page-wrap 容器，窄屏下给内边距 */
+@media (max-width: 768px) {
+  body > h1,
+  body > ul,
+  body > p {
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+}
+
+/* ---------- 页脚 Footer ---------- */
+/* 窄屏下座右铭较长，允许换行并保持居中 */
+@media (max-width: 640px) {
+  footer {
+    flex-wrap: wrap;
+    gap: 4px;
+    text-align: center;
+    padding: 16px 12px;
+  }
+}
+
+/* ---------- 面包屑 Breadcrumb ---------- */
+/* 窄屏下允许面包屑换行，字号略降 */
+@media (max-width: 520px) {
+  .breadcrumb-wrap ul {
+    font-size: 14px;
+  }
+
+  .breadcrumb-wrap li .sep {
+    margin: 0 6px;
+  }
+}
+
+/* ---------- 分页 Pagination ---------- */
+/* 窄屏下减小间距 */
+@media (max-width: 520px) {
+  .page-num {
+    margin: 0 12px;
+  }
+
+  .page-opt {
+    padding: 5px 8px;
+  }
+}

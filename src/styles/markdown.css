@@ -1,0 +1,254 @@
+.content {
+    /* 主题色变量（提取自 drake-juejin :root） */
+    --text-color: #333333;
+    --bg-color: #ffffff;
+    --a-color: #036aca;
+    --title-color: #135ce0;
+    --blockquote-border-color: #b2aec5;
+    --blockquote-color: #595959;
+    --blockquote-bg-color: #fff9f9;
+    --strong-color: #135ce0;
+    --drake-highlight: #d63200;
+    --variable-color: #d63200;
+    --code-block-bg-color: #2b2b2b;
+    --code-block-color: #a9b7c6;
+    --table-border-color: #dfe2e5;
+    --table-header-bg-color: #f6f8fa;
+    --table-n2-bg-color: #f6f8fa;
+    --horizontal-divider-color: #135ce0;
+
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--text-color);
+    word-break: break-word;
+}
+
+/* ===== 标题 ===== */
+.content h1,
+.content h2,
+.content h3,
+.content h4,
+.content h5,
+.content h6 {
+    font-weight: bold;
+    line-height: 1.4;
+    color: var(--title-color);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.content h1 {
+    font-size: 2rem;
+    text-align: center;
+    margin-top: 0;
+}
+
+.content h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+}
+
+.content h3 {
+    font-size: 1.4rem;
+}
+
+.content h4 {
+    font-size: 1.2rem;
+}
+
+.content h5,
+.content h6 {
+    font-size: 1rem;
+}
+
+/* ===== 段落与块级元素 ===== */
+.content p,
+.content blockquote,
+.content ul,
+.content ol,
+.content dl,
+.content table {
+    margin: 1em 0;
+}
+
+.content li {
+    margin: 0.5em 0;
+}
+
+.content li > ul,
+.content li > ol {
+    margin: 0;
+}
+
+.content ul,
+.content ol {
+    padding-inline-start: 2em;
+}
+
+.content ul {
+    list-style: disc;
+}
+
+.content ol {
+    list-style: decimal;
+}
+
+/* ===== 加粗 / 行内代码 / 变量 ===== */
+.content strong {
+    color: var(--strong-color);
+    font-weight: bold;
+}
+
+.content code {
+    margin: 0 2px;
+    border-radius: 2px;
+    color: var(--drake-highlight);
+    background-color: #fff5f5;
+    padding: 0.065em 0.4em;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+}
+
+.content var {
+    color: var(--variable-color);
+    font-weight: bold;
+}
+
+/* ===== 引用块 ===== */
+.content blockquote {
+    position: relative;
+    color: var(--blockquote-color);
+    border-radius: 2px;
+    padding: 10px 16px;
+    background-color: var(--blockquote-bg-color);
+    border-left: none;
+}
+
+.content blockquote::before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 4px;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background-color: var(--blockquote-border-color);
+    border-radius: 2px;
+}
+
+.content blockquote strong {
+    color: var(--blockquote-color);
+}
+
+/* ===== 链接 ===== */
+.content a {
+    color: var(--a-color);
+    text-decoration: none;
+}
+
+.content a:hover {
+    text-decoration: underline;
+}
+
+/* ===== 图片 ===== */
+.content img {
+    display: block;
+    max-width: 100%;
+    margin: 1em auto;
+    border-radius: 2px;
+    vertical-align: baseline;
+}
+
+/* ===== 代码块 ===== */
+.content pre {
+    padding: 0.5rem;
+    border-radius: 2px;
+    background-color: var(--code-block-bg-color);
+    color: var(--code-block-color);
+    line-height: 1.6;
+    overflow-x: auto;
+    margin: 1em 0;
+}
+
+.content pre code {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    color: inherit;
+    font-size: 1rem;
+    border-radius: 0;
+}
+
+/* ===== 表格 ===== */
+.content table {
+    border-collapse: collapse;
+    width: 100%;
+    background-color: var(--bg-color);
+}
+
+.content table tr {
+    border-top: 0.1em solid var(--table-border-color);
+}
+
+.content table th {
+    font-weight: bold;
+    border: 0.1em solid var(--table-border-color);
+    border-bottom: 0;
+    padding: 6px 13px;
+}
+
+.content table td {
+    border: 0.1em solid var(--table-border-color);
+    padding: 6px 13px;
+}
+
+.content table thead {
+    background-color: var(--table-header-bg-color);
+}
+
+.content table tr:nth-child(2n) {
+    background-color: var(--table-n2-bg-color);
+}
+
+/* ===== 分割线 ===== */
+.content hr {
+    height: 2px;
+    padding: 0;
+    margin: 16px 0;
+    background-color: var(--horizontal-divider-color);
+    border: 0 none;
+    overflow: hidden;
+    box-sizing: content-box;
+}
+
+/* ===== 高亮 / 删除线 / 键盘 ===== */
+.content mark {
+    border: 0.1em solid var(--drake-highlight);
+    color: var(--drake-highlight);
+    background-color: transparent;
+    padding: 0.1rem 0.5rem;
+    border-radius: 2rem;
+    margin: 0 0.2rem;
+    font-size: 0.95rem;
+}
+
+.content kbd {
+    border: 0.1em solid #5b5b5e;
+    background: transparent;
+    color: var(--text-color);
+    margin: 0 0.4rem;
+    font-size: 0.95rem;
+    padding: 0.3em 0.4em;
+    border-radius: 0.4em;
+    box-shadow: 0.1em 0.1em 0.2em rgba(0, 0, 0, 0.3);
+}
+
+.content del {
+    padding: 1px 2px;
+}
+
+/* ===== 任务列表 ===== */
+.content input[type='checkbox'] {
+    margin-right: 0.4em;
+    vertical-align: middle;
+}

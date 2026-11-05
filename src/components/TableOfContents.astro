@@ -1,0 +1,143 @@
+---
+// 文章目录组件（TOC）—— 悬浮面板
+// 固定在视口右侧，不占据文档流空间、不挤压正文。
+// 默认折叠为一个小按钮，点击展开；面板右上角可关闭。
+// 目录项与折叠交互均由 src/scripts/toc.js 处理。
+---
+
+<aside class="toc-wrap" aria-label="文章目录">
+    <button class="toc-toggle" type="button" aria-label="展开目录" data-toc-toggle>
+        <span class="toc-toggle-text">目录</span>
+    </button>
+    <div class="toc-panel" data-toc-panel>
+        <div class="toc-head">
+            <p class="toc-title">目录</p>
+            <button class="toc-close" type="button" aria-label="关闭目录" data-toc-close>×</button>
+        </div>
+        <nav class="toc-list" data-toc>
+            <!-- 目录项由 toc.js 动态填充 -->
+        </nav>
+    </div>
+</aside>
+
+<style>
+.toc-wrap {
+    position: fixed;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    z-index: 100;
+    display: flex;
+    align-items: flex-start;
+}
+
+/* 折叠按钮：贴右侧的小竖条 */
+.toc-toggle {
+    writing-mode: vertical-rl;
+    padding: 14px 8px;
+    background: #fff;
+    border: 1px solid #ece9e9;
+    border-right: none;
+    border-radius: 8px 0 0 8px;
+    cursor: pointer;
+    color: #333;
+    font-size: 14px;
+    letter-spacing: 2px;
+    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.05);
+    transition: background .2s, color .2s;
+}
+
+.toc-toggle:hover {
+    color: #006cac;
+}
+
+/* 展开后的目录面板 */
+.toc-panel {
+    display: none;
+    width: 240px;
+    max-height: 70vh;
+    padding: 16px 20px;
+    background: #fff;
+    border: 1px solid #ece9e9;
+    border-radius: 8px 0 0 8px;
+    box-shadow: -2px 2px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+/* 展开状态：隐藏按钮、显示面板 */
+.toc-wrap.open .toc-toggle {
+    display: none;
+}
+
+.toc-wrap.open .toc-panel {
+    display: block;
+}
+
+.toc-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #ece9e9;
+}
+
+.toc-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #333;
+    margin: 0;
+}
+
+.toc-close {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 1;
+    color: #999;
+    padding: 0 4px;
+}
+
+.toc-close:hover {
+    color: #333;
+}
+
+.toc-list {
+    max-height: calc(70vh - 60px);
+    overflow-y: auto;
+}
+
+/* 目录项由 toc.js 生成，这里统一样式 */
+.toc-list :global(a) {
+    display: block;
+    color: #666;
+    text-decoration: none;
+    padding: 3px 0;
+    border-left: 2px solid transparent;
+    transition: color .2s, border-color .2s;
+}
+
+.toc-list :global(a:hover) {
+    color: #006cac;
+}
+
+.toc-list :global(a.active) {
+    color: #006cac;
+    border-left-color: #006cac;
+}
+
+/* 三级标题缩进，形成树状层级 */
+.toc-list :global(a.toc-h3) {
+    padding-left: 16px;
+    font-size: 13px;
+    color: #999;
+}
+
+/* 窄屏隐藏悬浮目录 */
+@media (max-width: 900px) {
+    .toc-wrap {
+        display: none;
+    }
+}
+</style>

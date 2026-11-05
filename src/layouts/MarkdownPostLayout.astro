@@ -1,0 +1,93 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumb from '@/components/Breadcrumb.astro';
+import TagCard from '@/components/TagCard.astro';
+import TableOfContents from '@/components/TableOfContents.astro';
+import '@/styles/markdown.css';
+
+const { frontmatter } = Astro.props;
+// 格式化日期为「YYYY年MM月DD日」
+const pubDate = new Date(frontmatter.pubDate);
+const dateStr = `${pubDate.getFullYear()}年${String(pubDate.getMonth() + 1).padStart(2, '0')}月${String(pubDate.getDate()).padStart(2, '0')}日`;
+---
+<BaseLayout pageTitle={frontmatter.title}>
+    <div class="page-wrap">
+    <div class="header">
+        <Breadcrumb 
+            breadcrumbs={[
+                { to: '/', label: '首页' },
+                { to: '/posts', label: '文章', dynamic: true },
+                { to: '#', label: frontmatter.title }
+            ]}
+        />
+    </div>
+    <div class="main">
+        <div class="blog-wrap">
+            <p class="time">{ dateStr }</p>
+            <div class="content">
+                <slot />
+            </div>
+        </div>
+        <TableOfContents />
+    </div>
+    <div class="footer">
+        <div class="tags-wrap">
+            { frontmatter.tags.map(tag => <TagCard tag={tag} />) }
+        </div>
+    </div>
+</div>
+</BaseLayout>
+
+<script>
+    import { initToc } from '@/scripts/toc.js';
+    initToc();
+</script>
+
+<style>
+.page-wrap {
+    width: 768px;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 32px 16px;
+}
+
+.header {
+    padding-bottom: 15px;
+    border-bottom: 1px dotted #ece9e9;
+}
+
+.main {
+    margin: 20px 0;
+}
+
+.footer {
+    border-top: 1px dotted #ece9e9;
+    padding-top: 15px;
+}
+
+.blog-wrap {
+    >* {
+        padding: 0 15px;
+    }
+
+    .time {
+        color: #282728;
+    }
+
+    .content {
+        margin: 32px 0;
+        background-image: linear-gradient(90deg, rgba(159, 219, 252, .15) 3%, transparent 0), 
+                          linear-gradient(1turn, rgba(159, 219, 252, .15) 3%, transparent 0);
+        background-size: 20px 20px;
+        background-position: 50%;
+    }
+}
+
+.tags-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 24px 0;
+    border-top: 1px dotted #ece9e9;
+    border-bottom: 1px dotted #ece9e9;
+}
+</style>

@@ -1,0 +1,47 @@
+---
+const { post } = Astro.props
+
+// 格式化日期为「YYYY年MM月DD日」
+const pubDate = new Date(post.frontmatter.pubDate);
+const dateStr = `${pubDate.getFullYear()}年${String(pubDate.getMonth() + 1).padStart(2, '0')}月${String(pubDate.getDate()).padStart(2, '0')}日`;
+---
+
+<div class="card-wrap">
+    <a href={post.url}>
+        <p class="title ellipsis">{post.frontmatter.title}</p>
+        <p class="time">{dateStr}</p>
+    </a>
+</div>
+
+<style>
+.card-wrap {
+    width: 100%;
+    margin: 24px 0;
+
+    >a {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &:hover .title {
+            color: #006cac;
+            background-size: 100% 2px;
+        }
+    }
+}
+
+.title {
+    max-width: calc(100% - 155px);
+    font-size: 18px;
+    background: linear-gradient(to right, #006cac, #006cac)
+                    no-repeat left bottom;
+    background-size: 0 2px;
+    transition: background-size .4s;
+}
+
+.time {
+    color: #282728;
+    width: 155px;
+    padding-left: 30px;
+}   
+</style>

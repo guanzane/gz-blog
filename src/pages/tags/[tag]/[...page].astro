@@ -1,0 +1,76 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PostCard from '@/components/PostCard.astro';
+import Breadcrumb from '@/components/Breadcrumb.astro';
+import Pagination from '@/components/Pagination.astro';
+
+// 嵌套 rest 参数路由：[tag]/[...page]
+// 每个标签下按日期分页：/tags/xxx（第1页）、/tags/xxx/2、/tags/xxx/3...
+export async function getStaticPaths({ paginate }: any) {
+    const allPosts = Object.values(import.meta.glob('../../posts/**/*.md', { eager: true }))
+        .sort((a: any, b: any) => new Date(b.frontmatter.pubDate).getTime() - new Date(a.frontmatter.pubDate).getTime());
+
+    // 去重得到所有标签
+    const uniqueTags = [...new Set(allPosts.map((post: any) => post.frontmatter.tags).flat())];
+
+    // 对每个标签，用 paginate 生成该标签下的分页路由，并展开
+    const paths = uniqueTags.flatMap((tag) =>
+        paginate(
+            allPosts.filter((post: any) => post.frontmatter.tags.includes(tag)),
+            { pageSize: 10, params: { tag } }
+        )
+    );
+
+    return paths;
+}
+
+const { tag } = Astro.params;
+const { page } = Astro.props;
+const posts = page.data;
+---
+
+<BaseLayout pageTitle={page.currentPage === 1 ? `标签「${tag}」` : `标签「${tag}」 - 第 ${page.currentPage} 页`}>
+<div class="page-wrap">
+    <div class="header">
+        <Breadcrumb
+            breadcrumbs={[
+                { to: '/', label: '首页' },
+                { to: '/tags', label: '标签' },
+                { to: '#', label: tag }
+            ]}
+        />
+    </div>
+    <div class="main">
+        <p class="tag-desc">包含「{tag}」标签的文章</p>
+        {posts.map((post) => <PostCard post={post} />)}
+    </div>
+    <div class="footer">
+        <Pagination page={page} />
+    </div>
+</div>
+</BaseLayout>
+
+<style>
+.page-wrap {
+    padding: 32px 16px;
+}
+
+.header {
+    padding-bottom: 15px;
+    border-bottom: 1px dotted #ece9e9;
+}
+
+.main {
+    margin: 20px 0;
+}
+
+.tag-desc {
+    color: #666;
+    margin: 16px 0;
+}
+
+.footer {
+    border-top: 1px dotted #ece9e9;
+    padding-top: 15px;
+}
+</style>
