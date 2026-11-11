@@ -1,20 +1,8 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import { about, contacts } from '@/config/site';
 
-// ============ 个人介绍 ============
-const intro = {
-    name: 'Guanzz',
-    desc: '02后。呋喃人。双鱼座。现流窜于长三角一带。互联网技术爱好者。资深冲浪员。啥都会一点但也只会那一点的半桶水。热爱游戏。老书虫。电影迷。吉他新手。胡思乱想星人。死宅。2.5次元。',
-};
-
-// ============ 联系方式 ============
-// type: wechat | email | github
-// value：微信填微信号（点击复制）、邮箱填地址（点击唤起邮件）、GitHub 填主页链接（点击跳转）
-const contacts = [
-    { type: 'wechat', label: '微信', value: 'ownshuny' },
-    { type: 'email', label: '邮箱', value: 'ownshuny@163.com' },
-    { type: 'github', label: 'GitHub', value: 'https://github.com/GvanL' },
-];
+const { name, desc, avatar } = about;
 ---
 
 <BaseLayout pageTitle="关于">
@@ -26,13 +14,13 @@ const contacts = [
     <div class="main">
         <!-- 顶部：图片正常显示 -->
         <div class="hero">
-            <div class="hero-bg" aria-hidden="true"></div>
+            <div class="hero-bg" style={`background-image: url('${avatar}')`} aria-hidden="true"></div>
         </div>
 
         <!-- 中部：介绍卡片 -->
         <div class="intro-card">
             <div class="intro-head">
-                <h2 class="intro-name">{intro.name}</h2>
+                <h2 class="intro-name">{name}</h2>
                 <div class="contact-icons">
                     {contacts.map((c) => (
                         c.type === 'email' && c.value ? (
@@ -56,7 +44,7 @@ const contacts = [
                     ))}
                 </div>
             </div>
-            <p class="intro-desc">{intro.desc}</p>
+            <p class="intro-desc">{desc}</p>
         </div>
     </div>
 </div>
@@ -110,11 +98,10 @@ document.querySelectorAll('.contact-icon[data-copy]').forEach((btn) => {
     margin-bottom: 24px;
 }
 
-/* 背景图：正常清晰显示（不再默认模糊） */
+/* 背景图：正常清晰显示（不再默认模糊），图片路径由 site.ts 配置 */
 .hero-bg {
     position: absolute;
     inset: 0;
-    background-image: url('/avatar.webp');
     background-size: cover;
     background-position: center;
 }

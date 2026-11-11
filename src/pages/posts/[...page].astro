@@ -3,14 +3,15 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import PostCard from '@/components/PostCard.astro';
 import Breadcrumb from '@/components/Breadcrumb.astro';
 import Pagination from '@/components/Pagination.astro';
-
+import { getCollection } from 'astro:content';
+import { pageSize } from '@/config/site';
 
 export async function getStaticPaths({ paginate }: any) {
     // 收集全部文章并按发布日期降序排序
-    const allPosts = Object.values(import.meta.glob('../posts/**/*.md', { eager: true }))
-        .sort((a: any, b: any) => new Date(b.frontmatter.pubDate).getTime() - new Date(a.frontmatter.pubDate).getTime());
+    const allPosts = (await getCollection('posts'))
+        .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 
-    return paginate(allPosts, { pageSize: 10 });
+    return paginate(allPosts, { pageSize });
 }
 
 // paginate 注入的分页信息

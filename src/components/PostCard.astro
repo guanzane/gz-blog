@@ -1,14 +1,18 @@
 ---
 const { post } = Astro.props
 
+// content collection entry：{ id, data }，URL 为 /posts/<id>/
+const data = post.data;
+const url = `/posts/${post.id}/`;
+
 // 格式化日期为「YYYY年MM月DD日」
-const pubDate = new Date(post.frontmatter.pubDate);
+const pubDate = new Date(data.pubDate);
 const dateStr = `${pubDate.getFullYear()}年${String(pubDate.getMonth() + 1).padStart(2, '0')}月${String(pubDate.getDate()).padStart(2, '0')}日`;
 ---
 
 <div class="card-wrap">
-    <a href={post.url}>
-        <p class="title ellipsis">{post.frontmatter.title}</p>
+    <a href={url}>
+        <p class="title ellipsis">{data.title}</p>
         <p class="time">{dateStr}</p>
     </a>
 </div>
